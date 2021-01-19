@@ -4,50 +4,33 @@
     <div class="container">
       <div class="columns">
         <div class="column">
-          <div class="control">
-            <div class="select">
-              <select v-model="operacionSeleccionada">
-                <option v-for="(index, operacion) in operaciones">{{operacion}}</option>
-              </select>
-            </div>
-          </div>
+          <input class="input" type="text" v-model="oracion">
         </div>
         <div class="column">
-          <input class="input" type="number" v-model="num1" >
-        </div>
-        <div class="column">
-          <input disabled class="input" type="text" placeholder="Text input" v-model="simbolo">
-        </div>
-        <div class="column">
-          <input class="input" type="number" v-model="num2">
+          <button class="button is-success" @click="handleForm">Calcular</button>
         </div>
       </div>
     </div>
     <hr>
     <div class="container mt-2">
       <h4>cadena</h4>
-      <p>{{operacionSeleccionada}} {{ equal }} {{num1}} {{simbolo}} {{num2}}</p>
+      <p>{{oracion}}</p>
     </div>
     <hr>
     <div class="container mt-2">
       <h4>Elementos</h4>
-      <p>{{operacionSeleccionada}}</p>
-      <p>{{ equal }}</p>
-      <p>{{num1}}</p>
-      <p>{{simbolo}}</p>
-      <p>{{num2}}</p>
+      <p v-for="elemento in stringArray">{{elemento}}</p>
     </div>
     <hr>
     <div class="container mt-2">
       <div class="p-3">
         <h4>Parte 2</h4>
-        <button class="button button-is-primary" @click="generateString()">Contar Caracteres</button>
-        <p v-if="caracteres !== ''">Numero de Caracteres: {{caracteres}}</p>
-        <p>Identificador: {{operacionSeleccionada}}</p>
-        <p>Numero 1: {{num1}}</p>
-        <p>Numero 2: {{num2}}</p>
-        <p>Operador: {{simbolo}}</p>
-        <p>El operador es {{operacionSeleccionada}}</p>
+        <p>Caracteres: {{caracteres}}</p>
+        <p>Identificador: {{stringArray[0]}}</p>
+        <p>Numero 1: {{stringArray[2]}}</p>
+        <p>Numero 2: {{stringArray[4]}}</p>
+        <p>Operador: {{stringArray[3]}}</p>
+        <p>El operador es: {{stringArray[0]}}</p>
         <p>Resultado:  {{calculate}}</p>
       </div>
     </div>
@@ -63,27 +46,27 @@
           </thead>
           <tbody>
           <tr>
-            <td>{{operacionSeleccionada}}</td>
+            <td>{{stringArray[0]}}</td>
             <td>identificador</td>
             <td>Cadena de caracteres (variable)</td>
           </tr>
           <tr>
-            <td>{{equal}}</td>
+            <td>{{stringArray[1]}}</td>
             <td>asignacion</td>
             <td>Operador de Asignacion</td>
           </tr>
           <tr>
-            <td>{{num1}}</td>
+            <td>{{stringArray[2]}}</td>
             <td>Numero Uno</td>
             <td>Primer Literal Numerica</td>
           </tr>
           <tr>
-            <td>{{num2}}</td>
+            <td>{{stringArray[4]}}</td>
             <td>Numero Dos</td>
             <td>Segunda Literal Numerica</td>
           </tr>
           <tr>
-            <td>{{simbolo}}</td>
+            <td>{{stringArray[3]}}</td>
             <td>Operacion</td>
             <td>Operador Aritmetico</td>
           </tr>
@@ -99,48 +82,40 @@ export default {
   name: "Lexicos",
   data() {
     return {
-      equal: '=',
-      num1: '',
-      num2: '',
-      operaciones: {
-        suma: '+',
-        resta: '-',
-        multiplicacion: '*',
-        division: '/'
-      },
-      operacionSeleccionada: '',
-      caracteres: '',
+      oracion: '',
+      stringArray :[],
       resultado : 0,
+      operacion: ''
     }
   },
   methods:{
-    generateString(){
-      let oracionArray = []
-      oracionArray.push(this.operacionSeleccionada)
-      oracionArray.push(this.equal)
-      oracionArray.push(this.num1)
-      oracionArray.push(this.simbolo)
-      oracionArray.push(this.num2)
-      let oracionString = oracionArray.join(' ')
-      this.caracteres = oracionString.length
-    }
+  handleForm(){
+    let splitString = this.oracion.split(' ')
+    this.stringArray =  Array.from(splitString)
+    this.operacion = this.stringArray[3]
+    console.log(this.stringArray)
+  }
   },
   computed:{
-    simbolo(){
-      return this.operaciones[this.operacionSeleccionada]
+    caracteres(){
+      return this.oracion.length
     },
+
     calculate(){
-      if(this.simbolo === '+'){
-        return  this.num1 + this.num2
+      if(this.stringArray[3] === '+'){
+        return  parseInt(this.stringArray[2]) + parseInt(this.stringArray[4])
       }
-      if(this.simbolo === '-'){
-        return  this.num1 - this.num2
+      if(this.stringArray[3] === '-'){
+        return  parseInt(this.stringArray[2]) - parseInt(this.stringArray[4])
       }
-      if(this.simbolo === '*'){
-        return  this.num1 * this.num2
+      if(this.stringArray[3] === '*'){
+        return  parseInt(this.stringArray[2]) * parseInt(this.stringArray[4])
       }
-      if(this.simbolo === '/'){
-        return this.num1 / this.num2
+      if(this.stringArray[3] === '/'){
+        return  parseInt(this.stringArray[2]) / parseInt(this.stringArray[4])
+      }
+      else {
+        return 'Operador no valido o cadena no es logica'
       }
     }
   }

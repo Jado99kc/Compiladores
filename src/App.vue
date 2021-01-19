@@ -18,6 +18,9 @@
           <router-link class="navbar-item" to="/lexicos">
             Lexicos
           </router-link>
+          <router-link class="navbar-item" to="/act2">
+            Act 2
+          </router-link>
         </div>
       </div>
     </nav>

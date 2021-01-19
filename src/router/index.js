@@ -14,6 +14,11 @@ const routes = [
     path: '/lexicos',
     name: 'Lexicos',
     component: () => import('../views/Lexicos.vue')
+  },
+  {
+    path: '/act2',
+    name: 'Act2',
+    component: () => import('../views/ActDos.vue')
   }
 ]
 
